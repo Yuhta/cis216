@@ -1,0 +1,23 @@
+#!/bin/sh
+
+src="$1"
+base=`echo "$src" | sed 's/\(.*\)\.s/\1/'`
+bin=`mktemp`
+out=`mktemp`
+out_exp="$base.out"
+
+gcc -o $bin "$src" && $bin >$out
+ret=$?
+if [ $ret -eq 0 ] && [ -e "$out_exp" ]; then
+    diff "$out_exp" "$out"
+    ret=$?
+    if [ $ret -eq 0 ]; then
+        printf %s%s `tput setaf 2` PASS
+    else
+        printf %s%s `tput setaf 1` FAIL
+    fi
+    tput sgr0
+    echo " $src"
+fi
+rm -f $bin $out
+exit $ret
