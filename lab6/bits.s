@@ -6,8 +6,8 @@ main:
         mov %rsi, %rcx
 for_each_char:
         mov (%rcx), %al
-        cmp $0, %al
-        je end_for_each_char
+        test $0xFF, %al
+        jz end_for_each_char
         cmp $'A', %al
         jl not_letter
         xor $0x20, %al
