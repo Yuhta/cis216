@@ -1,0 +1,93 @@
+# -*- mode: asm -*-
+## Start of file strcmp.a
+## MIPSMARK 1.0 1/5/98 Copyright 1998 J. Waldron.
+##
+## Question:
+##
+## Write a function named strcmp that will
+## COMPARE 2 STRINGS
+## Return value:
+##    negative  if first < second
+##    0         if strings are the same
+##    positive  if first > second
+##
+## Output format must be:
+## "orange > banana"
+
+#################################################
+#					 	#
+#		text segment			#
+#						#
+#################################################
+
+	.text
+       	.globl __start
+__start:		# execution starts here
+
+	la $a0, name1	# pass two strings as args
+        la $a1, name2
+	move $s0,$a0	# save addresses for printing
+	move $s1,$a1
+        jal strcmp      # compare <<===== YOU
+			# select result string
+	bltz  $v0, small
+	bgtz  $v0, big
+	la    $s2, equal
+	b	output
+small:
+	la    $s2, less
+	b	output
+big:
+	la    $s2, greater
+output:
+        li    $v0, 4
+	move  $a0, $s0
+        syscall         # print first string
+        move  $a0, $s2
+        syscall         # print relational symbol < == >
+        move  $a0, $s1
+        syscall         # print second string
+        la $a0,endl
+        syscall         # print newline
+        li $v0,10
+        syscall         # au revoir....
+
+
+# Any changes above this line will be discarded by
+# mipsmark. Put your answer between dashed lines.
+#-------------- start cut -----------------------
+
+##      <taurus acct, Your Name>
+
+strcmp:
+        lb $t0, ($a0)
+        lb $t1, ($a1)
+        sub $v0, $t0, $t1
+        bnez $v0, strcmp_end
+        add $a0, 1
+        add $a1, 1
+        bnez $t0, strcmp
+strcmp_end:
+        jr $ra
+
+#--------------  end cut  -----------------------
+# Any changes below this line will be discarded by
+# mipsmark. Put your answer between dashed lines.
+
+#################################################
+#                                               #
+#               data segment                    #
+#                                               #
+#################################################
+
+        .data
+name0:  .asciiz "apple"
+name1:  .asciiz "orange"
+name2:  .asciiz "banana"
+endl:   .asciiz "\n"
+less:   .asciiz " < "
+equal:	.asciiz	" == "
+greater: .asciiz " > "
+
+##
+## End of file strcmp.a
