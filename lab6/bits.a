@@ -1,0 +1,76 @@
+# -*- mode: asm -*-
+#/*# Start of file bits.a */
+#
+#/*# MIPSMARK 1.0 1/5/98 Copyright 1998 J. Waldron. */
+#
+## Question:
+##  change the case of all letters in the string "ans"
+## simplifying assumption: All characters >='A' are letters
+##  (no test cases will use {}[], etc)
+## Divide "number" by 32, using shift, not div
+##
+## Then print "ans" followed by "number" and a newline 
+#/*# Output format must be:		*/
+#/*# "num Divided By 32 = -1024"		*/
+
+#/*################################################
+#					 	#
+#		text segment			#
+#						#
+#################################################
+
+	.text		
+       	.globl __start 
+__start:		# execution starts here  */
+
+
+#/* Any changes above this line will be discarded by
+# mipsmark. Put your answer between dashed lines.
+#-------------- start cut -----------------------
+
+#  Student:		Account:		*/
+
+        la $t0, ans
+for_each_char:
+        lb $t1, ($t0)
+        beqz $t1, end_for_each_char
+        blt $t1, 'A', not_letter
+        xor $t1, 0x20
+        sb $t1, ($t0)
+not_letter:
+        add $t0, 1
+        j for_each_char
+end_for_each_char:
+
+        lw $t0, number
+        sra $t0, $t0, 5
+
+        li $v0, 4
+        la $a0, ans
+        syscall
+        li $v0, 1
+        move $a0, $t0
+        syscall
+        li $v0, 4
+        la $a0, endl
+        syscall
+        li $v0, 10
+        syscall
+
+#/*--------------  end cut  -----------------------
+# Any changes below this line will be discarded by
+# mipsmark. Put your answer between dashed lines.
+
+#################################################
+#                                               #
+#               data segment                    #
+#                                               #
+#################################################
+
+        .data			#*/
+number:	.word -32760
+ans:	.asciiz	"NUM dIVIDED bY 32 = "
+endl:	.asciiz "\n"
+
+#
+#/*# End of file bits.a		*/
