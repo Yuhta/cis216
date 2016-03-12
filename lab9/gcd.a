@@ -57,7 +57,7 @@ exit:	li $v0,10
 
 gcd:    bge $a0, $a1, gcd__loop
         move $t0, $a0
-        move $a1, $a0
+        move $a0, $a1
         move $a0, $t0
 gcd__loop:
         div $a0, $a1
