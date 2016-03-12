@@ -72,6 +72,46 @@ int main() {
 
 /*  Student's Name:					*/
 
+static void
+die (const char * msg)
+{
+  printf ("Invalid syntax: %s\n", msg);
+  exit (0);
+}
+
+static int
+eval_term (FILE * f)
+{
+  int t = gettoken (f);
+  if (t < 0)
+    {
+      if (t == -'(')
+        {
+          t = inval (f);
+          if (gettoken (f) != -')') die ("unmatched parenthesis");
+        }
+      else
+        die ("number or parenthesis expected");
+    }
+  return t;
+}
+
+int
+inval (FILE * f)
+{
+  int x = eval_term (f);
+  int op = gettoken (f);
+  int y = eval_term (f);
+  switch (-op)
+    {
+    case '+': return x + y;
+    case '-': return x - y;
+    case '*': return x * y;
+    case '/': return x / y;
+    }
+  die ("invalid operator");
+  return 0;
+}
 
 /*--------------  end cut  -----------------------
  End of file evalinfix.c		*/
