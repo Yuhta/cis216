@@ -84,7 +84,6 @@ preval (FILE * f)
     }
   printf ("Invalid operator: %c\n", -op); // print error message
   exit (0); // exit with code 0
-  return 0;
 }
 
 /*--------------  end cut  -----------------------
