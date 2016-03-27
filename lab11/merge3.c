@@ -48,6 +48,43 @@ free(m);
 
 #/*  Student's Name:		Account:		*/
 
+void *
+xmalloc (size_t size)
+{
+  void * value = malloc (size);
+  if (value == 0)
+    {
+      fprintf (stderr, "virtual memory exhausted");
+      exit (2);
+    }
+  return value;
+}
+
+
+int *
+merge (const int * xs, int xlen,
+       const int * ys, int ylen)
+{
+  int * xys = xmalloc (sizeof (int) * (xlen + ylen));
+  int i = 0, j = 0, k = 0;
+  while (i < xlen && j < ylen)
+    if (xs[i] < ys[j]) xys[k++] = xs[i++];
+    else               xys[k++] = ys[j++];
+  while (i < xlen) xys[k++] = xs[i++];
+  while (j < ylen) xys[k++] = ys[j++];
+  return xys;
+}
+
+int *
+merge3 (const int * xs, int xlen,
+        const int * ys, int ylen,
+        const int * zs, int zlen)
+{
+  int * xys = merge (xs, xlen, ys, ylen);
+  int * xyzs = merge (xys, xlen + ylen, zs, zlen);
+  free (xys);
+  return xyzs;
+}
 
 #/*--------------  end cut  -----------------------
 # Any changes below this line will be discarded by
