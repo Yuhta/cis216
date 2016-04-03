@@ -7,9 +7,8 @@ swap:
 .LFB0:
 	.cfi_startproc
 	movl	(%rdi), %eax		#  eax = *x  (address in rdi)
-	movl	(%rsi), %edx		#  edx = *y  (address in rsi)
-	movl	%edx, (%rdi)		# put 'em back in opposite locations
-	movl	%eax, (%rsi)
+        xchgl   %eax, (%rsi)
+        xchgl   (%rdi), %eax
 	ret				# all done!
 	.cfi_endproc
 .LFE0:

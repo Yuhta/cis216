@@ -11,9 +11,9 @@ void fillarray ( int arr[], int length)		// fill with random numbers
 
 void printarray ( int arr[], int length)	// print an array, however you like
 {	
-    for (int i=0; i<LENGTH; i++)
+    for (int i=0; i<length; i++)
     {  
-	// print the elements
+      printf ("%d ", arr[i]);
     }
-    // printf("\n"); might be nice
+    putchar('\n');
 }
