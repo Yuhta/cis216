@@ -1,3 +1,4 @@
+# -*- mode: asm -*-
 #/*# Start of file funct7.a */
 #
 #/*# MIPSMARK 1.0 1/5/98 Copyright 1998 J. Waldron. */
@@ -74,6 +75,27 @@ yes:    li $v0,1
 #/*-------------- start cut ----------------------- */
 
 #/*  Student's Name:		Account:		*/
+
+strchk: sub $sp, 12
+        sw $ra, ($sp)
+        sw $s0, 4($sp)
+        sw $s1, 8($sp)
+        move $s0, $a0
+        li $s1, 0
+strchk__foreach_char:
+        lb $a0, ($s0)
+        beqz $a0, strchk__end
+        jal checkch
+        add $s1, $s1, $v0
+        add $s0, 1
+        j  strchk__foreach_char
+strchk__end:
+        move $v0, $s1
+        lw $ra, ($sp)
+        lw $s0, 4($sp)
+        lw $s1, 8($sp)
+        add $sp, 12
+        jr $ra
 
 #/*
 	j __start	#nasty loop if mips program not exited */
